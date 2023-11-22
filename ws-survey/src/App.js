@@ -4,7 +4,7 @@ import Container from "./Component/Containers.js";
 
 function App() {
   return (
-    <div style={{backgrooundColor : "dimgray"}}>
+    <div>
       <Container/>
     </div>
   );
