@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Detail from './Detail.js';
 import Question from './Question.js';
 import { v4 as uuidv4 } from 'uuid';
-import { get, getDatabase } from "firebase/database";
+import { getDatabase, ref, set } from "firebase/database";
+// import { getDatabase } from "firebase/database";
 import { initializeApp } from 'firebase/app';
 const firebaseConfig = {
     apiKey: "AIzaSyClBsPqjfYFaQ0eQYYiDt2ZXsW-TVHiwV8",
@@ -15,6 +16,9 @@ const firebaseConfig = {
   };
 
 const app = initializeApp(firebaseConfig);
+if(!firebaseConfig.app.length){
+    firebaseConfig.initializeApp(firebaseConfig)
+}
  
 
 class Container extends Component {
@@ -51,10 +55,9 @@ class Container extends Component {
         const isSubmitted = true;
         this.setState({questions, isSubmitted})
         event.preventDefault();
-        const database = getDatabase(app);
-        const dbRef = ref(getDatabase())
-        get("survey/" + this.state.id).set({
-            name : this.state.name,
+        const db = getDatabase(app);
+        set(ref(db, "survey/" + this.state.id),{
+           name : this.state.name,
             email : this.state.email,
             questions : this.state.questions,
         });
